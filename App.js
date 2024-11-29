@@ -1,20 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// App.js
 
-export default function App() {
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import AppointmentsList from './src/screens/AppointmentsList';
+import AddAppointment from './src/screens/AddAppointment';
+
+const App = () => {
+  const [appointments, setAppointments] = useState([]);
+  const [filterDate, setFilterDate] = useState(null);
+  const [currentScreen, setCurrentScreen] = useState('AppointmentsList');
+
+  const addAppointment = (newAppointment) => {
+    setAppointments((prev) => [...prev, newAppointment]);
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {currentScreen === 'AppointmentsList' ? (
+        <AppointmentsList
+          appointments={appointments}
+          filterDate={filterDate}
+          setFilterDate={setFilterDate}
+          setCurrentScreen={setCurrentScreen}
+        />
+      ) : (
+        <AddAppointment
+          addAppointment={addAppointment}
+          setCurrentScreen={setCurrentScreen}
+        />
+      )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
+
+export default App;
